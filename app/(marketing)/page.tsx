@@ -3,12 +3,15 @@
 import { Dialog, DialogPanel } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import Image from 'next/image'
-
+import Navbar from './_components/navbar'
 
 export default function Home() {
 
   return (
     <div className="bg-neutral-50">
+      <header>
+        <Navbar />
+      </header>
       <main>
         <div className="relative isolate">
           <svg

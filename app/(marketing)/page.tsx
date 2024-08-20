@@ -1,9 +1,8 @@
 'use client'
 
-import { Dialog, DialogPanel } from '@headlessui/react'
-import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import Image from 'next/image'
 import Navbar from './_components/navbar'
+import Links from 'next/link'
 
 export default function Home() {
 
@@ -62,15 +61,16 @@ export default function Home() {
                     An intuitive platform for music groups who want to streamline their workflow and maximize their creativity.
                   </p>
                   <div className="mt-10 flex items-center gap-x-6">
-                    <a
-                      href="#"
-                      className="rounded-md bg-orange-400 px-3.5 py-2.5 text-sm font-semibold text-neutral-900 shadow-sm hover:bg-orange-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                    <Links
+                      href="/sign-up"
+                      className="rounded-md bg-orange-400 px-3.5 py-2.5 text-sm font-semibold text-neutral-900 shadow-sm hover:bg-orange-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-400"
                     >
                       Register for free
-                    </a>
-                    <a href="#" className="text-sm font-semibold leading-6 text-neutral-900">
+                    </Links>
+                    <Links href="/sign-in" className="text-sm font-semibold leading-6 text-neutral-900"
+                    >
                       Log in <span aria-hidden="true">→</span>
-                    </a>
+                    </Links>
                   </div>
                 </div>
                 <div className="mt-14 flex justify-end gap-8 sm:-mt-44 sm:justify-start sm:pl-20 lg:mt-0 lg:pl-0">

@@ -1,16 +1,81 @@
-import Image from 'next/image'
+'use client';
 
-export default function Example() {
+import Image from 'next/image'
+import { useForm } from 'react-hook-form';
+import * as z from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+
+// Input validation using zod
+const FormSchema = z
+  .object({
+    firstName: z.string().min(1, 'First name is required').max(100),
+    lastName: z.string().min(1, 'Last name is required').max(100),
+    email: z.string().min(1, 'Email is required').email('Invalid email'),
+    password: z
+      .string()
+      .min(1, 'Password is required')
+      .min(8, 'Password must have than 8 characters'),
+  })
+
+// Sign-up form component
+export default function SignUpForm() {
+  const [isMounted, setIsMounted] = useState(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  const form = useForm<z.infer<typeof FormSchema>>({
+    resolver: zodResolver(FormSchema),
+    defaultValues: {
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: '',
+    },
+  });
+
+  const onSubmit = async (values: z.infer<typeof FormSchema>) => {
+    if (!isMounted) return;
+
+    try {
+      const response = await fetch('/api/user', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          firstName: values.firstName,
+          lastName: values.lastName,
+          email: values.email,
+          password: values.password,
+        }),
+      });
+
+      if (response.status === 409) {
+        // Handle the case where the user already exists
+        const data = await response.json();
+        console.error(data.message);
+        alert(data.message); // Show a user-friendly message
+      } else if (response.ok) {
+        // Redirect on successful registration
+        router.push('/sign-in');
+      } else {
+        console.error('Registration failed');
+        alert('Registration failed. Please try again.');
+      }
+    } catch (error) {
+      console.error('An unexpected error occurred:', error);
+      alert('An unexpected error occurred. Please try again.');
+    }
+  };
+
   return (
     <>
-      {/*
-        This example requires updating your template:
-
-        ```
-        <html class="h-full bg-white">
-        <body class="h-full">
-        ```
-      */}
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <Image
@@ -29,7 +94,7 @@ export default function Example() {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form action="#" method="POST" className="space-y-6">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <div>
               <label htmlFor="firstName" className="block text-sm font-medium leading-6 text-neutral-900">
                 Your first name
@@ -37,6 +102,7 @@ export default function Example() {
               <div className="mt-2">
                 <input
                   id="firstName"
+                  {...form.register('firstName')}
                   name="firstName"
                   type="text"
                   required
@@ -54,6 +120,7 @@ export default function Example() {
               <div className="mt-2">
                 <input
                   id="lastName"
+                  {...form.register('lastName')}
                   name="lastName"
                   type="text"
                   required
@@ -71,6 +138,7 @@ export default function Example() {
               <div className="mt-2">
                 <input
                   id="email"
+                  {...form.register('email')}
                   name="email"
                   type="email"
                   required
@@ -90,6 +158,7 @@ export default function Example() {
               <div className="mt-2">
                 <input
                   id="password"
+                  {...form.register('password')}
                   name="password"
                   type="password"
                   required
@@ -112,9 +181,9 @@ export default function Example() {
 
           <p className="mt-10 text-center text-sm text-neutral-500">
             Already a member of the team? {' '}
-            <a href="#" className="font-semibold leading-6 text-orange-600 hover:text-orange-300">
+            <Link href="/sign-in" className="font-semibold leading-6 text-orange-600 hover:text-orange-300">
               Sign in here!
-            </a>
+            </Link>
           </p>
         </div>
       </div>

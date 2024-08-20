@@ -11,11 +11,13 @@ import { useRouter } from 'next/navigation';
 // Input validation using zod
 const FormSchema = z
   .object({
-    email: z.string().min(1, 'Email is required').email('Invalid email'),
+    email: z
+      .string()
+      .min(1, 'We will need your email to sign you in!')
+      .email('Oops, that\'s the wrong email. Check and try again!'),
     password: z
       .string()
-      .min(1, 'Password is required')
-      .min(8, 'Password must have than 8 characters'),
+      .min(1, 'We will need your password to sign you in!') // Add a generic message for empty password input
   })
 
 export default function SignInForm() {
@@ -29,15 +31,14 @@ export default function SignInForm() {
   });
 
   const onSubmit = async (values: z.infer<typeof FormSchema>) => {
-    console.log("Form submitted", values);
     const signInData = await signIn('credentials', {
       email: values.email,
       password: values.password,
       redirect: false,
     });
 
-    if(signInData?.error) {
-      alert("No Good")
+    if (signInData?.error) {
+      form.setError('password', { type: 'manual', message: "Hmm, this password doesn't seem correct. Try again!" });
     } else {
       router.push('/admin')
     }
@@ -63,7 +64,7 @@ export default function SignInForm() {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <form onSubmit={form.handleSubmit(onSubmit)} noValidate className="space-y-6">
             <div>
               <label htmlFor="email" className="block text-sm font-medium leading-6 text-neutral-900">
                 Your email
@@ -79,6 +80,11 @@ export default function SignInForm() {
                   placeholder="Paul.McCartney@exemple.com"
                   className="block w-full rounded-md border-0 py-1.5 text-neutral-900 shadow-sm ring-1 ring-inset ring-neutral-300 placeholder:text-neutral-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6"
                 />
+                {form.formState.errors.email && (
+                  <p className="mt-2 text-sm text-red-600">
+                    {form.formState.errors.email?.message}
+                  </p>
+                )}
               </div>
             </div>
 
@@ -104,6 +110,11 @@ export default function SignInForm() {
                   placeholder="PaulMcCartney13.?"
                   className="block w-full rounded-md border-0 py-1.5 text-neutral-900 shadow-sm ring-1 ring-inset ring-neutral-300 placeholder:text-neutral-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6"
                 />
+                {form.formState.errors.password && (
+                  <p className="mt-2 text-sm text-red-600">
+                    {form.formState.errors.password?.message}
+                  </p>
+                )}
               </div>
             </div>
 

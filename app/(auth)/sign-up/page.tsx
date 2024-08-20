@@ -8,19 +8,25 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-// Input validation using zod
-const FormSchema = z
-  .object({
-    firstName: z.string().min(1, 'First name is required').max(100),
-    lastName: z.string().min(1, 'Last name is required').max(100),
-    email: z.string().min(1, 'Email is required').email('Invalid email'),
-    password: z
-      .string()
-      .min(1, 'Password is required')
-      .min(8, 'Password must have than 8 characters'),
-  })
+// Input validation using zod with custom error messages
+const FormSchema = z.object({
+  firstName: z
+    .string()
+    .min(1, 'We would love to know what your name is!')
+    .max(50, 'Your first name is too long'),
+  lastName: z
+    .string()
+    .min(1, 'No last name? Come on, be nice!')
+    .max(50, 'Your Last name is too long'),
+  email: z
+    .string()
+    .min(1, 'Hey, we will need your email if your want to join the team!')
+    .email('Oops, this email seems invalid. Check and try again!'),
+  password: z
+    .string()
+    .min(8, 'Your password needs a muscle up! At least 8 characters, a capital letter, a number, and a symbol.')
+});
 
-// Sign-up form component
 export default function SignUpForm() {
   const [isMounted, setIsMounted] = useState(false);
   const router = useRouter();
@@ -48,21 +54,14 @@ export default function SignUpForm() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          firstName: values.firstName,
-          lastName: values.lastName,
-          email: values.email,
-          password: values.password,
-        }),
+        body: JSON.stringify(values),
       });
 
       if (response.status === 409) {
-        // Handle the case where the user already exists
         const data = await response.json();
         console.error(data.message);
-        alert(data.message); // Show a user-friendly message
+        alert('Hmm, this email is already taken. Maybe you already have an account?');
       } else if (response.ok) {
-        // Redirect on successful registration
         router.push('/sign-in');
       } else {
         console.error('Registration failed');
@@ -86,7 +85,7 @@ export default function SignUpForm() {
               height="32"
           />
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-neutral-900">
-            Join the Adventure ! 🎸
+            Join the Adventure! 🎸
           </h2>
           <p className="mt-2 text-center text-base tracking-tight text-neutral-900">
             Enter your information to access JamLab
@@ -94,7 +93,7 @@ export default function SignUpForm() {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <form onSubmit={form.handleSubmit(onSubmit)} noValidate className="space-y-6">
             <div>
               <label htmlFor="firstName" className="block text-sm font-medium leading-6 text-neutral-900">
                 Your first name
@@ -110,6 +109,11 @@ export default function SignUpForm() {
                   placeholder="Paul"
                   className="block w-full rounded-md border-0 py-1.5 text-neutral-900 shadow-sm ring-1 ring-inset ring-neutral-300 placeholder:text-neutral-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6"
                 />
+                {form.formState.errors.firstName && (
+                  <p className="mt-2 text-sm text-red-600">
+                    {form.formState.errors.firstName.message}
+                  </p>
+                )}
               </div>
             </div>
 
@@ -128,6 +132,11 @@ export default function SignUpForm() {
                   placeholder="McCartney"
                   className="block w-full rounded-md border-0 py-1.5 text-neutral-900 shadow-sm ring-1 ring-inset ring-neutral-300 placeholder:text-neutral-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6"
                 />
+                {form.formState.errors.lastName && (
+                  <p className="mt-2 text-sm text-red-600">
+                    {form.formState.errors.lastName.message}
+                  </p>
+                )}
               </div>
             </div>
 
@@ -146,6 +155,11 @@ export default function SignUpForm() {
                   placeholder="Paul.McCartney@exemple.com"
                   className="block w-full rounded-md border-0 py-1.5 text-neutral-900 shadow-sm ring-1 ring-inset ring-neutral-300 placeholder:text-neutral-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6"
                 />
+                {form.formState.errors.email && (
+                  <p className="mt-2 text-sm text-red-600">
+                    {form.formState.errors.email.message}
+                  </p>
+                )}
               </div>
             </div>
 
@@ -166,6 +180,11 @@ export default function SignUpForm() {
                   placeholder="PaulMcCartney13.?"
                   className="block w-full rounded-md border-0 py-1.5 text-neutral-900 shadow-sm ring-1 ring-inset ring-neutral-300 placeholder:text-neutral-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6"
                 />
+                {form.formState.errors.password && (
+                  <p className="mt-2 text-sm text-red-600">
+                    {form.formState.errors.password.message}
+                  </p>
+                )}
               </div>
             </div>
 
@@ -180,7 +199,7 @@ export default function SignUpForm() {
           </form>
 
           <p className="mt-10 text-center text-sm text-neutral-500">
-            Already a member of the team? {' '}
+            Already a member of the team?{' '}
             <Link href="/sign-in" className="font-semibold leading-6 text-orange-600 hover:text-orange-300">
               Sign in here!
             </Link>

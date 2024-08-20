@@ -1,16 +1,50 @@
-import Image from 'next/image'
+'use client';
 
-export default function Example() {
+import Image from 'next/image'
+import { useForm } from 'react-hook-form';
+import * as z from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { signIn } from 'next-auth/react';
+import Links from 'next/link';
+import { useRouter } from 'next/navigation';
+
+// Input validation using zod
+const FormSchema = z
+  .object({
+    email: z.string().min(1, 'Email is required').email('Invalid email'),
+    password: z
+      .string()
+      .min(1, 'Password is required')
+      .min(8, 'Password must have than 8 characters'),
+  })
+
+export default function SignInForm() {
+  const router = useRouter()
+  const form = useForm<z.infer<typeof FormSchema>>({
+    resolver: zodResolver(FormSchema),
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+  });
+
+  const onSubmit = async (values: z.infer<typeof FormSchema>) => {
+    console.log("Form submitted", values);
+    const signInData = await signIn('credentials', {
+      email: values.email,
+      password: values.password,
+      redirect: false,
+    });
+
+    if(signInData?.error) {
+      alert("No Good")
+    } else {
+      router.push('/admin')
+    }
+  };
+
   return (
     <>
-      {/*
-        This example requires updating your template:
-
-        ```
-        <html class="h-full bg-white">
-        <body class="h-full">
-        ```
-      */}
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <Image
@@ -29,7 +63,7 @@ export default function Example() {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form action="#" method="POST" className="space-y-6">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <div>
               <label htmlFor="email" className="block text-sm font-medium leading-6 text-neutral-900">
                 Your email
@@ -37,12 +71,13 @@ export default function Example() {
               <div className="mt-2">
                 <input
                   id="email"
+                  {...form.register("email")}
                   name="email"
                   type="email"
                   required
                   autoComplete="email"
                   placeholder="Paul.McCartney@exemple.com"
-                  className="block w-full rounded-md border-0 py-1.5 text-neutral-900 shadow-sm ring-1 ring-inset ring-neutral-300 placeholder:text-neutral-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className="block w-full rounded-md border-0 py-1.5 text-neutral-900 shadow-sm ring-1 ring-inset ring-neutral-300 placeholder:text-neutral-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
@@ -61,12 +96,13 @@ export default function Example() {
               <div className="mt-2">
                 <input
                   id="password"
+                  {...form.register("password")}
                   name="password"
                   type="password"
                   required
                   autoComplete="current-password"
                   placeholder="PaulMcCartney13.?"
-                  className="block w-full rounded-md border-0 py-1.5 text-neutral-900 shadow-sm ring-1 ring-inset ring-neutral-300 placeholder:text-neutral-400 focus:ring-2 focus:ring-inset focus:ring-orange-300 sm:text-sm sm:leading-6"
+                  className="block w-full rounded-md border-0 py-1.5 text-neutral-900 shadow-sm ring-1 ring-inset ring-neutral-300 placeholder:text-neutral-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
@@ -83,9 +119,9 @@ export default function Example() {
 
           <p className="mt-10 text-center text-sm text-neutral-500">
             No account yet?{' '}
-            <a href="#" className="font-semibold leading-6 text-orange-600 hover:text-orange-300">
-              Join us!
-            </a>
+            <Links href="/sign-up" className="font-semibold leading-6 text-orange-600 hover:text-orange-300">
+             Join us!
+            </Links>
           </p>
         </div>
       </div>

@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { Dialog, DialogPanel } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import Image from 'next/image'
+import Links from 'next/link'
 
 const navigation = [
   { name: 'Features', href: '#' },
@@ -17,7 +18,7 @@ export default function Example() {
     <header className="bg-neutral-50">
       <nav aria-label="Global" className="mx-auto flex max-w-7xl items-center justify-between gap-x-6 p-6 lg:px-8">
         <div className="flex lg:flex-1">
-          <a href="#" className="-m-1.5 p-1.5">
+          <a href="/" className="-m-1.5 p-1.5">
             <span className="sr-only">JamLab</span>
             <Image
               alt="Logo"
@@ -36,15 +37,14 @@ export default function Example() {
           ))}
         </div>
         <div className="flex flex-1 items-center justify-end gap-x-6">
-          <a href="#" className="hidden lg:block lg:text-sm lg:font-semibold lg:leading-6 lg:text-neutral-900">
+          <Links href="/sign-in" className="hidden lg:block lg:text-sm lg:font-semibold lg:leading-6 lg:text-neutral-900">
             Log in
-          </a>
-          <a
-            href="#"
-            className="rounded-md bg-orange-400 px-3 py-2 text-sm font-semibold text-neutral-900 shadow-sm hover:bg-orange-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-400"
-          >
+          </Links>
+          <Links
+            href="/sign-up"
+            className="rounded-md bg-orange-400 px-3 py-2 text-sm font-semibold text-neutral-900 shadow-sm hover:bg-orange-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-400">
             Sign up
-          </a>
+          </Links>
         </div>
         <div className="flex lg:hidden">
           <button
@@ -57,11 +57,14 @@ export default function Example() {
           </button>
         </div>
       </nav>
+
+      {//Mobile menu, show/hide based on menu state.
+}
       <Dialog open={mobileMenuOpen} onClose={setMobileMenuOpen} className="lg:hidden">
         <div className="fixed inset-0 z-10" />
         <DialogPanel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-neutral-50 px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-neutral-900/10">
           <div className="flex items-center gap-x-6">
-            <a href="#" className="-m-1.5 p-1.5">
+            <a href="/" className="-m-1.5 p-1.5">
               <span className="sr-only">Your Company</span>
               <Image
                 alt="Logo"
@@ -70,12 +73,6 @@ export default function Example() {
                 width="200"
                 height="32"
               />
-            </a>
-            <a
-              href="#"
-              className="ml-auto rounded-md bg-orange-400 px-3 py-2 text-sm font-semibold text-neutral-900 shadow-sm hover:bg-orange-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-400"
-            >
-              Sign up
             </a>
             <button
               type="button"
@@ -100,12 +97,11 @@ export default function Example() {
                 ))}
               </div>
               <div className="py-6">
-                <a
-                  href="#"
-                  className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-neutral-900 hover:bg-neutral-100"
-                >
-                  Log in
-                </a>
+                <Links
+                  href="/sign-in"
+                  className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-neutral-900 hover:bg-neutral-100">
+                    Log in
+                 </Links>
               </div>
             </div>
           </div>

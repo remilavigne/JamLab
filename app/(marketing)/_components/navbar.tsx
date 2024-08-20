@@ -7,8 +7,8 @@ import Image from 'next/image'
 import Links from 'next/link'
 
 const navigation = [
-  { name: 'Features', href: '#' },
-  { name: 'Company', href: '#' },
+  // { name: 'Features', href: '#' },
+  // { name: 'Company', href: '#' },
 ]
 
 export default function Example() {
@@ -30,19 +30,19 @@ export default function Example() {
           </a>
         </div>
         <div className="hidden lg:flex lg:gap-x-12">
-          {navigation.map((item) => (
+          {/* {navigation.map((item) => (
             <a key={item.name} href={item.href} className="text-sm font-semibold leading-6 text-neutral-900">
               {item.name}
             </a>
-          ))}
+          ))} */}
         </div>
         <div className="flex flex-1 items-center justify-end gap-x-6">
-          <Links href="/sign-in" className="hidden lg:block lg:text-sm lg:font-semibold lg:leading-6 lg:text-neutral-900">
+          <Links href="/sign-in" className="hidden lg:block lg:text-base lg:font-semibold lg:leading-6 lg:text-neutral-900">
             Log in
           </Links>
           <Links
             href="/sign-up"
-            className="rounded-md bg-orange-400 px-3 py-2 text-sm font-semibold text-neutral-900 shadow-sm hover:bg-orange-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-400">
+            className="hidden lg:block lg:rounded-md lg:bg-orange-400 lg:px-3 lg:py-2 lg:text-base lg:font-semibold lg:text-neutral-900 lg:shadow-sm lg:hover:bg-orange-300 lg:focus-visible:outline focus-visible:outline-2 lg:focus-visible:outline-offset-2 lg:focus-visible:outline-orange-400">
             Sign up
           </Links>
         </div>
@@ -65,7 +65,7 @@ export default function Example() {
         <DialogPanel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-neutral-50 px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-neutral-900/10">
           <div className="flex items-center gap-x-6">
             <a href="/" className="-m-1.5 p-1.5">
-              <span className="sr-only">Your Company</span>
+              <span className="sr-only">JamLab</span>
               <Image
                 alt="Logo"
                 src="/logo.svg"
@@ -98,8 +98,14 @@ export default function Example() {
               </div>
               <div className="py-6">
                 <Links
+                  href="/sign-up"
+                  className="mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 bg-orange-600 text-neutral-900 hover:bg-orange-300"
+                  >
+                    Sign up
+                </Links>
+                <Links
                   href="/sign-in"
-                  className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-neutral-900 hover:bg-neutral-100">
+                  className="mt-3 mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-neutral-900 hover:bg-neutral-100">
                     Log in
                  </Links>
               </div>

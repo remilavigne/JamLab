@@ -94,9 +94,9 @@ export default function SignInForm() {
                   Your password
                 </label>
                 <div className="text-sm">
-                  <a href="#" className="font-semibold text-orange-600 hover:text-orange-300">
+                  <Links href="/forgot-password" className="font-semibold text-orange-600 hover:text-orange-300">
                     Forgot password?
-                  </a>
+                  </Links>
                 </div>
               </div>
               <div className="mt-2">

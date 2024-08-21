@@ -7,6 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Links from 'next/link';
 
 // Input validation using zod with custom error messages
 const FormSchema = z.object({
@@ -77,13 +78,15 @@ export default function SignUpForm() {
     <>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-          <Image
-              alt="Logo"
-              src="/logo.svg"
-              className="h-8 w-auto flex align-items-center justify-center"
-              width="200"
-              height="32"
-          />
+          <Links href="/" className="flex justify-center">
+            <Image
+                alt="Logo"
+                src="/logo.svg"
+                className="h-8 w-auto flex justify-center"
+                width="200"
+                height="32"
+            />
+          </Links>
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-neutral-900">
             Join the Adventure! 🎸
           </h2>
@@ -107,7 +110,7 @@ export default function SignUpForm() {
                   required
                   autoComplete="firstName"
                   placeholder="Paul"
-                  className="block w-full rounded-md border-0 py-1.5 text-neutral-900 shadow-sm ring-1 ring-inset ring-neutral-300 placeholder:text-neutral-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6"
+                  className="pl-2 block w-full rounded-md border-0 py-1.5 text-neutral-900 shadow-sm placeholder:text-neutral-400 sm:text-sm sm:leading-6 ring-1 ring-inset ring-neutral-300"
                 />
                 {form.formState.errors.firstName && (
                   <p className="mt-2 text-sm text-red-600">
@@ -130,7 +133,7 @@ export default function SignUpForm() {
                   required
                   autoComplete="lastName"
                   placeholder="McCartney"
-                  className="block w-full rounded-md border-0 py-1.5 text-neutral-900 shadow-sm ring-1 ring-inset ring-neutral-300 placeholder:text-neutral-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6"
+                  className="pl-2 block w-full rounded-md border-0 py-1.5 text-neutral-900 shadow-smplaceholder:text-neutral-400  sm:text-sm sm:leading-6 ring-1 ring-inset ring-neutral-300"
                 />
                 {form.formState.errors.lastName && (
                   <p className="mt-2 text-sm text-red-600">
@@ -153,7 +156,7 @@ export default function SignUpForm() {
                   required
                   autoComplete="email"
                   placeholder="Paul.McCartney@exemple.com"
-                  className="block w-full rounded-md border-0 py-1.5 text-neutral-900 shadow-sm ring-1 ring-inset ring-neutral-300 placeholder:text-neutral-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6"
+                  className="pl-2 block w-full rounded-md border-0 py-1.5 text-neutral-900 placeholder:text-neutral-400 sm:text-sm sm:leading-6 ring-1 ring-inset ring-neutral-300"
                 />
                 {form.formState.errors.email && (
                   <p className="mt-2 text-sm text-red-600">
@@ -178,7 +181,7 @@ export default function SignUpForm() {
                   required
                   autoComplete="current-password"
                   placeholder="PaulMcCartney13.?"
-                  className="block w-full rounded-md border-0 py-1.5 text-neutral-900 shadow-sm ring-1 ring-inset ring-neutral-300 placeholder:text-neutral-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6"
+                  className="pl-2 block w-full rounded-md border-0 py-1.5 text-neutral-900 shadow-sm placeholder:text-neutral-400 sm:text-sm sm:leading-6 ring-1 ring-inset ring-neutral-300"
                 />
                 {form.formState.errors.password && (
                   <p className="mt-2 text-sm text-red-600">

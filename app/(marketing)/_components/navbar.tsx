@@ -81,7 +81,7 @@ export default function Navbar() {
             className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-neutral-700"
           >
             <span className="sr-only">Open main menu</span>
-            <Bars3Icon aria-hidden="true" className="h-6 w-6" />
+            <Bars3Icon aria-hidden="true" className="h-8 w-8" />
           </button>
         </div>
       </nav>
@@ -89,7 +89,7 @@ export default function Navbar() {
       <Dialog open={mobileMenuOpen} onClose={setMobileMenuOpen} className="lg:hidden">
         <div className="fixed inset-0 z-10" />
         <DialogPanel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-neutral-50 px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-neutral-900/10">
-          <div className="flex items-center gap-x-6">
+          <div className="flex items-center justify-between gap-x-6">
             <a href="/" className="-m-1.5 p-1.5">
               <span className="sr-only">JamLab</span>
               <Image
@@ -148,7 +148,7 @@ export default function Navbar() {
                     </Links>
                     <Links
                       href="/sign-up"
-                      className="mt-3 mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 bg-orange-600 text-neutral-900 hover:bg-orange-300"
+                      className="mt-3 mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 bg-orange-400 text-neutral-900 hover:bg-orange-300"
                     >
                       Sign up
                     </Links>

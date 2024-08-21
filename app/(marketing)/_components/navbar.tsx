@@ -8,7 +8,7 @@ import Links from 'next/link';
 import { useSession, signOut } from 'next-auth/react';
 
 const navigation = [
-  // Add any other navigation links you may have here
+  { name: 'Features', href: '#' },
 ];
 
 export default function Navbar() {

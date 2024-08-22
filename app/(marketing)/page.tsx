@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import Navbar from './_components/navbar'
 import Links from 'next/link'
-
+import Button from '../components/button'
 export default function Home() {
 
   return (
@@ -61,16 +61,12 @@ export default function Home() {
                     An intuitive platform for music groups who want to streamline their workflow and maximize their creativity.
                   </p>
                   <div className="mt-10 flex items-center flex-col lg:flex-row gap-6 ">
-                    <Links
-                      href="/sign-up"
-                      className="w-full rounded-md bg-orange-400 px-3.5 py-2.5 text-base font-semibold text-center text-neutral-900 shadow-sm hover:bg-orange-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-400"
-                    >
+                    <Button variant="secondary" size="medium" href="/sign-up">
                       Register for free
-                    </Links>
-                    <Links href="/sign-in" className="w-full text-base font-semibold text-center leading-6 text-neutral-900"
-                    >
+                    </Button>
+                    <Button variant="link" size="medium" href="/sign-in">
                       Log in <span aria-hidden="true">→</span>
-                    </Links>
+                    </Button>
                   </div>
                 </div>
                 <div className="mt-14 sm:mt-6 flex justify-end gap-8 sm:justify-start sm:pl-20 lg:mt-0 lg:pl-0">
